@@ -1,8 +1,8 @@
 Web VPython 3.2
 
 import random
-
-box(size = vec(100,1,20))
+c=1
+box(color = color.green, size = vec(100,1,20))
 ball = sphere(color = color.red, pos = vec(0,10,0))
 ball.v = vec(0,0,0)
 t = 0
@@ -17,22 +17,26 @@ for i in range(5) :
     x = random.randint(-40, 40)
     y = random.randint(1, 9)
     a_list.append(sphere(color = vec(1,1,0), pos = vec(x,y,0)))
+for i in range(1) :
+    x = random.randint(-40, 40)
+    y = random.randint(1, 9)
+    bu = ring(radius = 3, color = vec(0,1,1), pos = vec(x,y,0))
+t1 = label(text = 'point: 0', pos = vec(20,20,0))
 while True : 
     rate(100)
     if t % 100 == 0 :
-        label(text = 'time:'+str(t//100), pos = vec(-20,10,0))
+        label(text = 'time:'+str(t//100), pos = vec(-20,20,0))
     t = t + 1
     ball.pos = ball.pos + ball.v * 0.01
-    
     k = keysdown()
     if 'right' in k :
-        ball.v.x += 0.1
+        ball.v.x += 0.1*c
     if 'left' in k :
-        ball.v.x -= 0.1
+        ball.v.x -= 0.1*c
     if 'up' in k :
-        ball.v.y += 0.1
+        ball.v.y += 0.1*c
     if 'down' in k :
-        ball.v.y -= 0.1
+        ball.v.y -= 0.1*c
     if ball.pos.y <= 1.5 : 
         ball.v.y = -ball.v.y
     else :
@@ -45,6 +49,7 @@ while True :
     for i in range (10) :
         if b_list[i].color == color.red :
             cnt += 1
+    t1.text = 'point: '+cnt+ '/10'
     if cnt == 10 :
         label(text = 'Mission Clear!!')
         break
@@ -54,3 +59,6 @@ while True :
     if o == 3 :
         label(text = 'Game Over!!')
         break
+    if mag(ball.pos - bu.pos) <= 0.5 :
+        ball.color = bu.color
+        c=10
